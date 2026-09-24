@@ -1,0 +1,8 @@
+export const SERVICE_STATUSES = Object.freeze({
+  OPERATIONAL: 'OPERATIONAL',
+  DEGRADED: 'DEGRADED',
+  MAINTENANCE: 'MAINTENANCE',
+  INACTIVE: 'INACTIVE',
+});
+
+export const SERVICE_STATUS_VALUES = Object.freeze(Object.values(SERVICE_STATUSES));

@@ -1,21 +1,36 @@
+import {
+  incidentPaths,
+  incidentResponses,
+  incidentSchemas,
+} from '../modules/incidents/incident.openapi.js';
+import {
+  servicePaths,
+  serviceResponses,
+  serviceSchemas,
+} from '../modules/services/service.openapi.js';
+
 export const openApiDocument = {
   openapi: '3.0.3',
   info: {
     title: 'IncidentHub API',
     version: '1.0.0',
     description:
-      'API acadêmica para gerenciamento de incidentes. Esta entrega inclui saúde, autenticação e consulta do usuário autenticado.',
+      'API acadêmica para gerenciamento de serviços, incidentes e usuários com autenticação JWT.',
   },
   servers: [{ url: '/', description: 'Servidor atual' }],
   tags: [
-    { name: 'Health', description: 'Estado da aplicação' },
     { name: 'Auth', description: 'Cadastro e autenticação' },
     { name: 'Users', description: 'Dados do usuário autenticado' },
+    { name: 'Services', description: 'Sistemas e aplicações monitorados' },
+    { name: 'Incidents', description: 'Registro e acompanhamento de incidentes' },
+    { name: 'System', description: 'Estado da aplicação' },
   ],
   paths: {
+    ...servicePaths,
+    ...incidentPaths,
     '/health': {
       get: {
-        tags: ['Health'],
+        tags: ['System'],
         summary: 'Consulta a saúde da API e do MongoDB',
         responses: {
           200: {
@@ -210,6 +225,8 @@ export const openApiDocument = {
       },
     },
     responses: {
+      ...serviceResponses,
+      ...incidentResponses,
       ValidationError: {
         description: 'Dados de entrada inválidos',
         content: {
@@ -236,8 +253,24 @@ export const openApiDocument = {
           },
         },
       },
+      Forbidden: {
+        description: 'Usuário sem o papel necessário',
+        content: {
+          'application/json': {
+            schema: { $ref: '#/components/schemas/Error' },
+            example: {
+              error: {
+                code: 'FORBIDDEN',
+                message: 'Você não possui permissão para acessar este recurso.',
+              },
+            },
+          },
+        },
+      },
     },
     schemas: {
+      ...serviceSchemas,
+      ...incidentSchemas,
       User: {
         type: 'object',
         required: ['id', 'name', 'email', 'role', 'createdAt', 'updatedAt'],

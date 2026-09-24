@@ -1,0 +1,17 @@
+export const INCIDENT_SEVERITIES = Object.freeze({
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL',
+});
+
+export const INCIDENT_SEVERITY_VALUES = Object.freeze(Object.values(INCIDENT_SEVERITIES));
+
+export const INCIDENT_STATUSES = Object.freeze({
+  INVESTIGATING: 'INVESTIGATING',
+  IDENTIFIED: 'IDENTIFIED',
+  MONITORING: 'MONITORING',
+  RESOLVED: 'RESOLVED',
+});
+
+export const INCIDENT_STATUS_VALUES = Object.freeze(Object.values(INCIDENT_STATUSES));

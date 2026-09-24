@@ -7,6 +7,8 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFound } from './middlewares/notFound.js';
 import { authRouter } from './modules/auth/auth.routes.js';
 import { healthRouter } from './modules/health/health.routes.js';
+import { incidentRouter } from './modules/incidents/incident.routes.js';
+import { serviceRouter } from './modules/services/service.routes.js';
 import { userRouter } from './modules/users/user.routes.js';
 
 export const app = express();
@@ -27,6 +29,8 @@ app.use(
 );
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
+app.use('/api/services', serviceRouter);
+app.use('/api/incidents', incidentRouter);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -1,5 +1,6 @@
 import { z } from 'zod';
+import { objectIdSchema } from '../../shared/validation/schemas.js';
 
 export const userIdParamsSchema = z.object({
-  id: z.string().regex(/^[a-f\d]{24}$/i, 'Id de usuário inválido.'),
+  id: objectIdSchema,
 });
