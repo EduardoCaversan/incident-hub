@@ -96,7 +96,7 @@ export const incidentPaths = {
       },
       responses: {
         201: { ...incidentResponse, description: 'Incidente criado' },
-        400: { $ref: '#/components/responses/ValidationError' },
+        400: { $ref: '#/components/responses/InvalidIncidentInput' },
         401: { $ref: '#/components/responses/Unauthorized' },
         403: { $ref: '#/components/responses/Forbidden' },
       },
@@ -132,7 +132,7 @@ export const incidentPaths = {
       },
       responses: {
         200: incidentResponse,
-        400: { $ref: '#/components/responses/ValidationError' },
+        400: { $ref: '#/components/responses/InvalidIncidentInput' },
         401: { $ref: '#/components/responses/Unauthorized' },
         403: { $ref: '#/components/responses/Forbidden' },
         404: { $ref: '#/components/responses/IncidentNotFound' },
@@ -240,6 +240,34 @@ export const incidentSchemas = {
 };
 
 export const incidentResponses = {
+  InvalidIncidentInput: {
+    description: 'Dados inválidos ou referência a serviço/usuário inexistente ou incompatível',
+    content: {
+      'application/json': {
+        schema: { $ref: '#/components/schemas/Error' },
+        examples: {
+          validation: {
+            summary: 'Campo inválido',
+            value: {
+              error: {
+                code: 'VALIDATION_ERROR',
+                message: 'Os dados enviados são inválidos.',
+              },
+            },
+          },
+          reference: {
+            summary: 'Serviço inexistente',
+            value: {
+              error: {
+                code: 'INVALID_SERVICE_REFERENCE',
+                message: 'Um ou mais serviços afetados não existem.',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
   IncidentNotFound: {
     description: 'Incidente não encontrado',
     content: {

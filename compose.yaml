@@ -7,9 +7,9 @@ services:
       NODE_ENV: production
       PORT: 3000
       MONGODB_URI: mongodb://mongo:27017/incident-hub
-      JWT_SECRET: local-docker-secret-change-before-production
-      JWT_EXPIRES_IN: 1h
-      BCRYPT_ROUNDS: 12
+      JWT_SECRET: ${JWT_SECRET:?Defina JWT_SECRET no arquivo .env}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1h}
+      BCRYPT_ROUNDS: ${BCRYPT_ROUNDS:-12}
     depends_on:
       mongo:
         condition: service_healthy
@@ -26,6 +26,22 @@ services:
       retries: 5
       start_period: 10s
     restart: unless-stopped
+
+  seed:
+    build: .
+    command: ['node', 'src/seed.js']
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      MONGODB_URI: mongodb://mongo:27017/incident-hub
+      JWT_SECRET: ${JWT_SECRET:?Defina JWT_SECRET no arquivo .env}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1h}
+      BCRYPT_ROUNDS: ${BCRYPT_ROUNDS:-12}
+      SEED_USER_PASSWORD: ${SEED_USER_PASSWORD:-}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    profiles: ['tools']
 
   mongo:
     image: mongo:8.0

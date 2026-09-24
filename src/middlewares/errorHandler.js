@@ -37,5 +37,12 @@ function normalizeError(error) {
     });
   }
 
+  if (error?.type === 'entity.too.large') {
+    return new AppError('O corpo da requisição excede o limite permitido.', {
+      statusCode: 413,
+      code: 'PAYLOAD_TOO_LARGE',
+    });
+  }
+
   return new AppError(error?.message || 'Ocorreu um erro interno.');
 }

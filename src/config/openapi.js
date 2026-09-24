@@ -15,7 +15,7 @@ export const openApiDocument = {
     title: 'IncidentHub API',
     version: '1.0.0',
     description:
-      'API acadêmica para gerenciamento de serviços, incidentes e usuários com autenticação JWT.',
+      'API acadêmica para gerenciamento de serviços e incidentes. Após o login, copie `accessToken`, clique em **Authorize** e informe o token JWT.',
   },
   servers: [{ url: '/', description: 'Servidor atual' }],
   tags: [
@@ -110,7 +110,7 @@ export const openApiDocument = {
           content: {
             'application/json': {
               schema: { $ref: '#/components/schemas/LoginInput' },
-              example: { email: 'ana@example.com', password: 'Senha123' },
+              example: { email: 'admin@incidenthub.local', password: 'SenhaDefinidaNoSeed123' },
             },
           },
         },

@@ -1,4 +1,5 @@
 import express from 'express';
+import helmet from 'helmet';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import { env } from './config/env.js';
@@ -14,7 +15,8 @@ import { userRouter } from './modules/users/user.routes.js';
 export const app = express();
 
 app.disable('x-powered-by');
-app.use(express.json());
+app.use(helmet({ contentSecurityPolicy: false }));
+app.use(express.json({ limit: '100kb' }));
 
 if (env.nodeEnv !== 'test') {
   app.use(morgan(env.nodeEnv === 'production' ? 'combined' : 'dev'));

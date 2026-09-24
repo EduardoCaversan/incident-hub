@@ -98,6 +98,18 @@ test('OpenAPI documenta os módulos e não possui referências internas ausentes
   }
 });
 
+test('aplica headers de segurança e limita o tamanho do JSON', async () => {
+  const health = await request(app).get('/health');
+  const oversized = await request(app)
+    .post('/api/auth/register')
+    .send({ name: 'Payload grande', email: 'large@example.com', password: 'A'.repeat(110_000) });
+
+  assert.equal(health.headers['x-content-type-options'], 'nosniff');
+  assert.equal(health.headers['x-powered-by'], undefined);
+  assert.equal(oversized.status, 413);
+  assert.equal(oversized.body.error.code, 'PAYLOAD_TOO_LARGE');
+});
+
 after(async () => {
   await disconnectDatabase();
   if (mongoServer) {

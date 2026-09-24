@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "test": "node test/auth-users.e2e.test.js",
+    "seed": "node src/seed.js",
+    "test": "node test/api.e2e.test.js",
+    "check": "npm run lint && npm run format:check && npm test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
@@ -21,6 +23,7 @@
     "bcryptjs": "^3.0.3",
     "dotenv": "^18.0.3",
     "express": "^5.2.1",
+    "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.10.2",
     "morgan": "^1.12.1",
