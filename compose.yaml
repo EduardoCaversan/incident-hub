@@ -7,6 +7,9 @@ services:
       NODE_ENV: production
       PORT: 3000
       MONGODB_URI: mongodb://mongo:27017/incident-hub
+      JWT_SECRET: local-docker-secret-change-before-production
+      JWT_EXPIRES_IN: 1h
+      BCRYPT_ROUNDS: 12
     depends_on:
       mongo:
         condition: service_healthy
